@@ -1,11 +1,11 @@
 package com.example.eazibaking.Models;
 
 public class Ingredient {
-    private int quantity;
+    private double quantity;
     private String measure;
     private String ingredient;
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

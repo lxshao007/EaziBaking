@@ -26,15 +26,16 @@ public class RecipeRepository {
 
     public LiveData<List<Recipe>> getRecipes() {
         final MutableLiveData<List<Recipe>> recipes = new MutableLiveData<>();
-        webService.getRecipes().enqueue(new Callback<RecipeResponse>() {
+        webService.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override
-            public void onResponse(Call<RecipeResponse> call, Response<RecipeResponse> response) {
-                recipes.setValue(response.body().getRecipes());
+            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                recipes.setValue(response.body());
+
             }
 
             @Override
-            public void onFailure(Call<RecipeResponse> call, Throwable t) {
-                Log.e(TAG, "fetch recipes fail!");
+            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                Log.e(TAG, "fetch recipes fail! error is" + t.toString());
             }
         });
         return recipes;

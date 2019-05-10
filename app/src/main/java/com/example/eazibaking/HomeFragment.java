@@ -22,7 +22,6 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private RecipeRepository recipeRepository = new RecipeRepository();
-    List<Recipe> recipes = new ArrayList<>();
     private static final String TAG = HomeFragment.class.getName();
     private Recipe recipe = new Recipe();
     private RecipeViewModel recipeViewModel;
@@ -44,14 +43,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //recipes = recipeRepository.getRecipes().getValue();
         RecyclerView mRecyclerView = view.findViewById(R.id.rv_recipe);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recipeViewModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        recipeViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         recipeViewModel.getRecipes().observe(this, recipes -> {
             mAdapter = new RecipeListAdapter(recipes);
             mRecyclerView.setAdapter(mAdapter);
         });
-
     }
 }
