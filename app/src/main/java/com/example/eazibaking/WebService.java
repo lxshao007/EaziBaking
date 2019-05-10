@@ -1,7 +1,6 @@
 package com.example.eazibaking;
 
 import com.example.eazibaking.Models.Recipe;
-import com.example.eazibaking.Models.RecipeResponse;
 
 import java.util.List;
 

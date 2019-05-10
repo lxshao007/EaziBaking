@@ -1,5 +1,7 @@
 package com.example.eazibaking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +10,11 @@ import android.view.ViewGroup;
 
 import com.example.eazibaking.Models.Recipe;
 import com.example.eazibaking.databinding.ListItemRecipeCardBinding;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
@@ -50,6 +55,15 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
         public void bind(Recipe recipe) {
             databinding.tvRecipeName.setText(recipe.getName());
+            databinding.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, RecipeDetailActivity.class);
+                    intent.putExtra("recipe", ModelUtils.toString(recipe, new TypeToken<Recipe>(){}));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

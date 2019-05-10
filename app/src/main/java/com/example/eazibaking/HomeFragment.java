@@ -3,6 +3,7 @@ package com.example.eazibaking;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.eazibaking.Models.Recipe;
+import com.example.eazibaking.databinding.FragmentHomeBinding;
+import com.example.eazibaking.databinding.FragmentRecipeDetailBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ public class HomeFragment extends Fragment {
     private Recipe recipe = new Recipe();
     private RecipeViewModel recipeViewModel;
     private RecipeListAdapter mAdapter;
+    private FragmentHomeBinding binding;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -37,7 +41,8 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container,false);
+        return binding.getRoot();
     }
 
     @Override

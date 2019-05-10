@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.example.eazibaking.Models.Recipe;
-import com.example.eazibaking.Models.RecipeResponse;
 
 import java.util.List;
 
