@@ -14,8 +14,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
     private List<Recipe> recipes;

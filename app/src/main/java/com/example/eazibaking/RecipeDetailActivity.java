@@ -15,7 +15,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_step_placeholder, recipeDetailFragment)
+                    .addToBackStack(null)
                     .commit();
         }
+    }
+
+    //TODO NOT WORKING
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getFragmentManager().popBackStack();
     }
 }
