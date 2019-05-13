@@ -20,13 +20,23 @@ public class RecipeDetailFragment extends Fragment {
     private FragmentRecipeDetailBinding binding;
     private Recipe recipe;
     private StepListAdapter mAdapter;
+    private boolean twoPane;
 
-    public static RecipeDetailFragment newInstance(String recipeString) {
+    public static RecipeDetailFragment newInstance(String recipeString, boolean twoPane) {
         Bundle args = new Bundle();
         args.putString("recipe", recipeString);
+        args.putBoolean("twoPane", twoPane);
         RecipeDetailFragment fragment = new RecipeDetailFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        twoPane = getArguments().getBoolean("twoPane");
+        String recipeString = getArguments().getString("recipe");
+        recipe = ModelUtils.toObject(recipeString, new TypeToken<Recipe>(){});
     }
 
     @Nullable
@@ -39,11 +49,9 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String recipeString = getArguments().getString("recipe");
-        recipe = ModelUtils.toObject(recipeString, new TypeToken<Recipe>(){});
         RecyclerView mRecyclerView = binding.rvRecipeDetail;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new StepListAdapter(recipe.getIngredients(), recipe.getSteps(), getActivity());
+        mAdapter = new StepListAdapter(recipe.getIngredients(), recipe.getSteps(), getActivity(), twoPane);
         mRecyclerView.setAdapter(mAdapter);
     }
 

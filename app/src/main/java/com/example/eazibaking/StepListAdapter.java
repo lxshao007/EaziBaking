@@ -24,14 +24,16 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
     private List<Step> steps;
     private List<Ingredient> ingredients;
     private Context context;
+    private boolean twoPane;
 
-    private static final int VIEW_TYPE_INGREDIENT = 0;
-    private static final int VIEW_TYPE_STEP = 1;
+    public static final int VIEW_TYPE_INGREDIENT = 0;
+    public static final int VIEW_TYPE_STEP = 1;
 
-    StepListAdapter(List<Ingredient> ingredients, List<Step> steps, Context context) {
+    StepListAdapter(List<Ingredient> ingredients, List<Step> steps, Context context, Boolean twoPane) {
         this.ingredients = ingredients;
         this.steps = steps;
         this.context = context;
+        this.twoPane = twoPane;
     }
 
     @NonNull
@@ -50,11 +52,11 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
         Log.i(TAG, "position is" + i);
         switch (type) {
             case VIEW_TYPE_INGREDIENT:
-                viewHolder.bind(ingredients.get(i), i + 1, context);
+                viewHolder.bind(ingredients.get(i), i + 1, context, twoPane);
                 break;
             case VIEW_TYPE_STEP:
                 int num = i - ingredients.size();
-                viewHolder.bind(steps.get(num), num + 1, context);
+                viewHolder.bind(steps.get(num), num + 1, context, twoPane);
                 break;
         }
     }
@@ -75,6 +77,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ListItemStepCardBinding databinding;
+        private OnStepSelectedListener listener;
 
         public ViewHolder(@NonNull ListItemStepCardBinding databinding) {
             super(databinding.getRoot());
@@ -82,7 +85,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
 
         }
 
-        public void bind(Step step, int num, Context context) {
+        public void bind(Step step, int num, Context context,  boolean twoPane) {
             databinding.tvStepName.setText("Step " + num);
             databinding.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,13 +93,19 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
                     StepDetailFragment stepDetailFragment = StepDetailFragment
                             .newInstance(ModelUtils.toString(step, new TypeToken<Step>(){}));
                     if (context != null) {
-                        navToFragment(context, stepDetailFragment);
+                        if (twoPane) {
+                            databinding.cardView.setCardBackgroundColor(R.style.CardView_Dark);
+                            listener.onStepSelected(num, getItemViewType());
+                        } else {
+                            navToFragment(context, stepDetailFragment);
+                        }
+
                     }
                 }
             });
         }
 
-        public void bind(Ingredient ingredient, int num, @NonNull Context context) {
+        public void bind(Ingredient ingredient, int num, @NonNull Context context, boolean twoPane) {
             databinding.tvStepName.setText("Ingredient " + num + ":" + ingredient.getIngredient());
             databinding.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,7 +113,12 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
                     IngredientDetailFragment ingredientDetailFragment = IngredientDetailFragment
                             .newInstance(ModelUtils.toString(ingredient, new TypeToken<Ingredient>(){}));
                     if (context != null) {
-                        navToFragment(context, ingredientDetailFragment);
+                        if (twoPane) {
+                            databinding.cardView.setCardBackgroundColor(R.style.CardView_Dark);
+                            listener.onStepSelected(num, getItemViewType());
+                        } else {
+                            navToFragment(context, ingredientDetailFragment);
+                        }
                     }
                 }
             });
@@ -118,5 +132,9 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
                     .commit();
         }
 
+    }
+
+    public interface OnStepSelectedListener {
+         void onStepSelected(int id, int viewType);
     }
 }
