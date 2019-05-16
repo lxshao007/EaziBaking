@@ -20,6 +20,7 @@ import java.util.List;
 public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHolder> {
 
     private static final String TAG = StepListAdapter.class.getName();
+    private OnStepSelectedListener listener;
 
     private List<Step> steps;
     private List<Ingredient> ingredients;
@@ -34,6 +35,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
         this.steps = steps;
         this.context = context;
         this.twoPane = twoPane;
+
     }
 
     @NonNull
@@ -77,7 +79,6 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ListItemStepCardBinding databinding;
-        private OnStepSelectedListener listener;
 
         public ViewHolder(@NonNull ListItemStepCardBinding databinding) {
             super(databinding.getRoot());
@@ -94,8 +95,9 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
                             .newInstance(ModelUtils.toString(step, new TypeToken<Step>(){}));
                     if (context != null) {
                         if (twoPane) {
-                            databinding.cardView.setCardBackgroundColor(R.style.CardView_Dark);
-                            listener.onStepSelected(num, getItemViewType());
+                            if (context instanceof OnStepSelectedListener) {
+                                ((OnStepSelectedListener) context).onStepSelected(num, getItemViewType());
+                            }
                         } else {
                             navToFragment(context, stepDetailFragment);
                         }
@@ -114,8 +116,9 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.ViewHo
                             .newInstance(ModelUtils.toString(ingredient, new TypeToken<Ingredient>(){}));
                     if (context != null) {
                         if (twoPane) {
-                            databinding.cardView.setCardBackgroundColor(R.style.CardView_Dark);
-                            listener.onStepSelected(num, getItemViewType());
+                            if (context instanceof OnStepSelectedListener) {
+                                ((OnStepSelectedListener) context).onStepSelected(num, getItemViewType());
+                            }
                         } else {
                             navToFragment(context, ingredientDetailFragment);
                         }
