@@ -42,23 +42,11 @@
                 android:textColor="@color/colorPrimary" />
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_height="wrap_content"
-            card_view:cardBackgroundColor="#E6E6E6"
-            card_view:cardCornerRadius="8dp"
-            card_view:cardElevation="8dp"
-            android:layout_margin="20dp">
-            <TextView
-                android:id="@+id/tv_video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="40sp"
-                android:textColor="@color/colorPrimary"
-                android:text="Video"/>
-        </android.support.v7.widget.CardView>
+            android:id="@+id/exo_player_view"/>
 
     </LinearLayout>
 </layout>
