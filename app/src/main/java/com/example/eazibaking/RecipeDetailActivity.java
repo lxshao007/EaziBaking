@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
 import com.example.eazibaking.Models.Ingredient;
 import com.example.eazibaking.Models.Recipe;
@@ -13,6 +15,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class RecipeDetailActivity extends AppCompatActivity implements StepListAdapter.OnStepSelectedListener {
 
+    private static final String  TAG = RecipeDetailActivity.class.getName();
+
     private ActivityStepBinding databinding;
     private boolean mTwoPane;
     private Recipe recipe;
@@ -20,6 +24,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepListA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databinding = DataBindingUtil.setContentView(this, R.layout.activity_step);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTwoPane = databinding.fragmentStepDetailPlaceholder == null ? false : true;
         String recipeString = getIntent().getStringExtra("recipe");
         recipe = ModelUtils.toObject(recipeString, new TypeToken<Recipe>(){});
@@ -33,21 +38,26 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepListA
                 navToFragment(R.id.fragment_step_detail_placeholder, ingredientDetailFragment);
             }
         }
+
     }
 
     private void navToFragment(int id, Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
-    //TODO NOT WORKING
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        getFragmentManager().popBackStack();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+             default:
+                 return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
