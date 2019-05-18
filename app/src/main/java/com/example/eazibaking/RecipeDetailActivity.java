@@ -1,10 +1,9 @@
 package com.example.eazibaking;
 
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.eazibaking.Models.Ingredient;

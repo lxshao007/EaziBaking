@@ -17,13 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipeRepository {
     private static final String TAG = RecipeRepository.class.getName();
 
-    Retrofit retrofit = new Retrofit.Builder()
+    static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://d17h27t6h515a5.cloudfront.net/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    WebService webService = retrofit.create(WebService.class);
+    static WebService webService = retrofit.create(WebService.class);
 
-    public LiveData<List<Recipe>> getRecipes() {
+    public static LiveData<List<Recipe>> getRecipes() {
         final MutableLiveData<List<Recipe>> recipes = new MutableLiveData<>();
         webService.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override

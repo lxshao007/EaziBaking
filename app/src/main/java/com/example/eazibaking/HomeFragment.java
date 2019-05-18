@@ -1,6 +1,8 @@
 package com.example.eazibaking;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.eazibaking.Models.Step;
+import com.example.eazibaking.Models.Recipe;
 import com.example.eazibaking.databinding.FragmentHomeBinding;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -25,6 +29,7 @@ public class HomeFragment extends Fragment {
     private RecipeListAdapter mAdapter;
     private FragmentHomeBinding binding;
     private boolean twoPane;
+    private List<Recipe> recipeList;
 
     public static HomeFragment newInstance(boolean twoPane) {
         Bundle args = new Bundle();
@@ -59,10 +64,17 @@ public class HomeFragment extends Fragment {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         }
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         recipeViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         RecipeViewModel.getRecipes().observe(this, recipes -> {
+            recipeList = recipes;
             mAdapter = new RecipeListAdapter(recipes);
             mRecyclerView.setAdapter(mAdapter);
+            if (recipeList != null && recipeList.size() > 0) {
+                editor.putString("recipe", ModelUtils.toString(recipeList.get(0), new TypeToken<Recipe>(){}));
+                editor.apply();
+            }
         });
     }
 }
