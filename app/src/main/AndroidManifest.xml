@@ -32,7 +32,8 @@
             android:name=".RecipeDetailActivity"
             android:label="detail activity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"/>
     </application>
 
 </manifest>

@@ -30,7 +30,6 @@ public class StepDetailFragment extends Fragment {
     private static final String ARG_STEP = "ARG_STEP";
 
     private String arg_step;
-    private StepDetailViewModel mViewModel;
     private FragmentStepDetailBinding binding;
     private Step step;
     private SimpleExoPlayer mExoPlayer;
@@ -108,7 +107,6 @@ public class StepDetailFragment extends Fragment {
 
     @Override
     public void onResume() {
-
         super.onResume();
         if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
             initializePlayer(step.getVideoURL());

@@ -21,6 +21,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import static com.example.eazibaking.MainActivity.getIdleResource;
+
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getName();
