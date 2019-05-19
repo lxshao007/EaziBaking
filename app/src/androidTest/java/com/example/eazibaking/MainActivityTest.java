@@ -39,6 +39,11 @@ public class MainActivityTest {
 
         //card showed
         onView(withId(R.id.rv_recipe)).check(matches(isDisplayed()));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //click on card
         onView(withId(R.id.rv_recipe)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         //recipe detail display
@@ -53,6 +58,11 @@ public class MainActivityTest {
     public void enSureStepFlowWorks() {
         //card showed
         onView(withId(R.id.rv_recipe)).check(matches(isDisplayed()));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //click on card
         onView(withId(R.id.rv_recipe)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         //recipe detail display
